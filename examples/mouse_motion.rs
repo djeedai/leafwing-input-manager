@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use leafwing_input_manager::prelude::*;
+use leafwing_input_manager::{prelude::*, user_input::InputKind};
 
 fn main() {
     App::new()
@@ -22,7 +22,13 @@ fn setup(mut commands: Commands) {
             input_map: InputMap::default()
                 // This will capture the total continuous value, for direct use.
                 // Note that you can also use discrete gesture-like motion, via the `MouseMotionDirection` enum.
-                .insert(DualAxis::mouse_motion(), CameraMovement::Pan)
+                .insert_chord(
+                    [
+                        InputKind::from(DualAxis::mouse_motion()),
+                        InputKind::from(MouseButton::Right),
+                    ],
+                    CameraMovement::Pan,
+                )
                 .build(),
             ..default()
         });
